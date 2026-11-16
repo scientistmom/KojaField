@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#f6f4ed" />
+    <title>KojaField · Your gardens</title>
+    <meta name="description" content="A field of maths gardens. Choose first or third grade." />
+    <link rel="icon" href="assets-mark.svg" />
+    <link rel="stylesheet" href="css/styles.css?v=kojafield-20261116-11" />
+    <link rel="stylesheet" href="css/gardens.css?v=kojafield-20261116-11" />
+    <link rel="stylesheet" href="css/garden-wallet.css?v=kojafield-20261116-11" />
+    <link rel="stylesheet" href="css/garden-room.css?v=kojafield-20261116-11" />
+    <script src="data/grade1.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/grade1-questions.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/grade1-questions-v4.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/grade1-questions-v5.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/grade1-simple-questions.js?v=kojafield-20261116-11" defer></script>
+    <script src="data/grade3.js?v=kojafield-20261116-11" defer></script>
+    <script src="data/grade3-legacy.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/grade3-questions-legacy.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/grade3-questions.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/i18n-grade1.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/i18n-grade3.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/i18n-questions.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/i18n.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/grade1-engine.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/grade3-engine.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/bush.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/garden-items.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/garden-rewards.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/garden-wallet.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/gardens.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/garden-life.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/garden-room.js?v=kojafield-20261116-11" defer></script>
+    <link rel="stylesheet" href="css/game-reset.css?v=kojafield-20261116-11" />
+    <script src="js/game-reset.js?v=kojafield-20261116-11" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to gardens</a>
+    <header class="site-header">
+      <a class="brand" href="index.html"
+        ><span class="brand-symbol" aria-hidden="true">✿</span> KojaField</a
+      >
+      <nav aria-label="Navigation"><span class="nav-link active">Gardens</span></nav>
+      <label class="language-picker" data-no-translate
+        ><span class="sr-only">Language / Nyelv</span
+        ><select data-language-switch aria-label="Language / Nyelv">
+          <option value="en">EN</option>
+          <option value="hu">HU</option>
+        </select></label
+      >
+    </header>
+    <main id="main">
+      <div class="journey-heading">
+        <h1>Your gardens</h1>
+        <span class="field-count" id="room-completed"></span>
+      </div>
+      <div class="garden-toolbar">
+        <div class="garden-grade-menu" role="group" aria-label="Choose a maths garden">
+          <button type="button" data-garden-grade="1" aria-pressed="true">1st Grade</button
+          ><button type="button" data-garden-grade="3" aria-pressed="false">3rd Grade</button>
+        </div>
+        <div class="garden-toolbar-actions">
+          <span class="garden-coin-total" id="room-wallet" aria-label="Coins for your garden"></span
+          ><button type="button" class="garden-tool-button shop-button" id="room-shop">
+            <span aria-hidden="true">⌂</span><span>Shop</span></button
+          ><button type="button" class="garden-tool-button" id="room-inventory">
+            <span aria-hidden="true">▧</span><span>My things</span
+            ><span id="room-owned-count"></span>
+          </button>
+        </div>
+      </div>
+      <p id="room-save-note" class="save-note" role="status" hidden>Cannot save in this browser.</p>
+      <section class="big-field garden-room-field" aria-label="Choose a maths garden">
+        <svg
+          class="field-scenery"
+          viewBox="0 0 1200 670"
+          preserveAspectRatio="xMidYMid slice"
+          aria-hidden="true"
+        >
+          <defs>
+            <radialGradient id="field-light">
+              <stop stop-color="#f2efd3" />
+              <stop offset="1" stop-color="#d7e5c5" />
+            </radialGradient>
+            <pattern id="field-grass" width="69" height="53" patternUnits="userSpaceOnUse">
+              <path
+                d="M12 18l-2-5m2 5 3-4m42 25-2-5m2 5 3-3"
+                fill="none"
+                stroke="#98b180"
+                stroke-width="1.4"
+                opacity=".35"
+              />
+              <circle cx="39" cy="9" r="1.6" fill="#fff9da" />
+            </pattern>
+            <g id="field-bush">
+              <path
+                d="M-45 7q-15-33 14-39q11-31 35-16q35-16 43 15q34 12 11 38q-42 28-103 2"
+                fill="#b0c794"
+              />
+              <path
+                d="M-18 15q-5-30 5-44m-3 20-13-9m16 4 10-11m22 33q9-18 8-39m-5 22 16-4"
+                fill="none"
+                stroke="#8dab76"
+                stroke-width="2"
+              />
+            </g>
+          </defs>
+          <rect width="1200" height="670" fill="url(#field-light)" />
+          <rect width="1200" height="670" fill="url(#field-grass)" />
+          <path
+            d="M-50 580Q190 500 352 530T660 450T1240 540"
+            fill="none"
+            stroke="#c5ca9f"
+            stroke-width="48"
+          />
+          <path
+            d="M-50 580Q190 500 352 530T660 450T1240 540"
+            fill="none"
+            stroke="#eddfb9"
+            stroke-width="37"
+          />
+          <path
+            d="M-50 580Q190 500 352 530T660 450T1240 540"
+            fill="none"
+            stroke="#fff4d5"
+            stroke-width="3"
+            stroke-dasharray="2 14"
+            stroke-linecap="round"
+          />
+          <g opacity=".8">
+            <use href="#field-bush" x="20" y="30" />
+            <use href="#field-bush" x="80" y="0" />
+            <use href="#field-bush" x="1170" y="35" />
+            <use href="#field-bush" x="1130" y="0" />
+            <use href="#field-bush" x="25" y="630" />
+            <use href="#field-bush" x="105" y="675" />
+            <use href="#field-bush" x="1180" y="645" />
+          </g>
+          <g transform="translate(600 235)">
+            <ellipse cy="29" rx="56" ry="18" fill="#b7c69a" />
+            <path d="M-47 17q-7-34 18-42q40-30 71 5q24 32-10 48q-56 10-79-11" fill="#e9ddba" />
+            <path d="M-39 13q-3-25 18-30q31-23 54 4q19 23-10 32q-42 10-62-6" fill="#8cb8a5" />
+            <path d="M-20 1q17-7 30-1" fill="none" stroke="#c8ded0" stroke-width="2" />
+            <path d="M-39 21q-10-22-8-33m9 30 7-23" stroke="#8aa46e" stroke-width="2" fill="none" />
+          </g>
+          <g fill="#fff8d7">
+            <circle cx="108" cy="470" r="4" />
+            <circle cx="101" cy="476" r="4" />
+            <circle cx="1110" cy="330" r="4" />
+            <circle cx="1117" cy="336" r="4" />
+            <circle cx="615" cy="596" r="4" />
+          </g>
+          <g fill="#dbb45b">
+            <circle cx="105" cy="473" r="2.5" />
+            <circle cx="1113" cy="333" r="2.5" />
+            <circle cx="615" cy="596" r="2" />
+          </g>
+        </svg>
+        <article class="garden-choice grade-one" data-grade="1">
+          <div class="garden-art" id="grade1-art"></div>
+          <div class="decor-lawn-wrap">
+            <div
+              class="decor-lawn"
+              id="decor-lawn-1"
+              data-decor-grade="1"
+              tabindex="0"
+              role="group"
+              aria-label="Your decoration garden"
+            >
+              <div class="lawn-scenery" aria-hidden="true">
+                <i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <div class="decor-items" id="decor-items-1"></div>
+              <div class="lawn-welcome">
+                <span aria-hidden="true">✿</span><span>A little space to make your own</span>
+              </div>
+            </div>
+          </div>
+          <button
+            class="garden-pick"
+            id="choose-grade1"
+            aria-expanded="false"
+            aria-controls="enter-grade1"
+          >
+            <span class="garden-sign"
+              ><strong>1st Grade</strong><span>10 chapters · 80 lessons</span
+              ><span id="grade1-progress" class="garden-progress">0 / 80</span></span
+            >
+          </button>
+          <div class="garden-entry">
+            <a class="button primary enter-garden" id="enter-grade1" href="garden.html" hidden
+              >Start <span aria-hidden="true">→</span></a
+            >
+          </div>
+        </article>
+        <article class="garden-choice grade-three" data-grade="3">
+          <div class="garden-art" id="grade3-art"></div>
+          <div class="decor-lawn-wrap">
+            <div
+              class="decor-lawn"
+              id="decor-lawn-3"
+              data-decor-grade="3"
+              tabindex="0"
+              role="group"
+              aria-label="Your decoration garden"
+            >
+              <div class="lawn-scenery" aria-hidden="true">
+                <i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <div class="decor-items" id="decor-items-3"></div>
+              <div class="lawn-welcome">
+                <span aria-hidden="true">✿</span><span>A little space to make your own</span>
+              </div>
+            </div>
+          </div>
+          <button
+            class="garden-pick"
+            id="choose-grade3"
+            aria-expanded="false"
+            aria-controls="enter-grade3"
+          >
+            <span class="garden-sign"
+              ><strong>3rd Grade</strong><span>10 chapters · 80 lessons</span
+              ><span id="grade3-progress" class="garden-progress">0 / 80</span></span
+            >
+          </button>
+          <div class="garden-entry">
+            <a class="button primary enter-garden" id="enter-grade3" href="grade3.html" hidden
+              >Start <span aria-hidden="true">→</span></a
+            >
+          </div>
+        </article>
+      </section>
+      <div class="flower-tooltip" id="flower-tooltip" role="tooltip" hidden></div>
+      <div class="decor-dock" id="decor-dock" hidden>
+        <span class="decor-dock-art" id="decor-dock-art" aria-hidden="true"></span>
+        <div class="decor-dock-copy">
+          <strong id="decor-dock-name"></strong><span>Tap the grass to place</span>
+        </div>
+        <div class="decor-dock-actions">
+          <button type="button" id="decor-place" aria-label="Place here">✓</button
+          ><button type="button" id="decor-store" aria-label="Put away">▧</button
+          ><button type="button" id="decor-cancel" aria-label="Cancel move">×</button>
+        </div>
+      </div>
+      <dialog class="garden-shop" id="garden-shop" aria-labelledby="garden-shop-title">
+        <div class="shop-heading">
+          <div>
+            <p class="shop-kicker" id="shop-grade"></p>
+            <h2 id="garden-shop-title">Garden shop</h2>
+          </div>
+          <span class="garden-coin-total" id="shop-wallet"></span
+          ><button
+            type="button"
+            class="garden-tool-button shop-close"
+            id="shop-close"
+            aria-label="Close"
+          >
+            ×
+          </button>
+        </div>
+        <div class="shop-tabs" role="group" aria-label="Garden shop">
+          <button type="button" data-shop-tab="shop" aria-pressed="true">Shop</button
+          ><button type="button" data-shop-tab="owned" aria-pressed="false">My things</button>
+        </div>
+        <div id="shop-content"></div>
+        <details class="coin-rules">
+          <summary>How to earn coins</summary>
+          <p>Open every petal to earn coins. Your first hand-in earns the most.</p>
+          <div class="coin-rounds">
+            <span>1 → 30</span><span>2 → 24</span><span>3 → 18</span><span>4 → 12</span
+            ><span>5+ → 6</span>
+          </div>
+          <p>
+            Each lesson earns once. Each final mission earns separately. Moving your things is free.
+          </p>
+        </details>
+      </dialog>
+      <div class="sr-only" id="room-status" role="status" aria-live="polite"></div>
+    </main>
+  </body>
+</html>

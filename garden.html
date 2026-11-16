@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#f6f4ed" />
+    <title>1st Grade · KojaField</title>
+    <meta
+      name="description"
+      content="Eighty first-grade maths adventures with pictures and gentle whole-set feedback."
+    />
+    <link rel="icon" href="assets-mark.svg" />
+    <link rel="stylesheet" href="css/styles.css?v=kojafield-20261116-11" />
+    <link rel="stylesheet" href="css/gardens.css?v=kojafield-20261116-11" />
+    <link rel="stylesheet" href="css/grade1.css?v=kojafield-20261116-11" />
+    <link rel="stylesheet" href="css/garden-wallet.css?v=kojafield-20261116-11" />
+    <script src="data/grade1.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/grade1-questions.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/grade1-questions-v4.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/grade1-questions-v5.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/grade1-simple-questions.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/i18n-grade1.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/i18n-questions.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/i18n.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/grade1-engine.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/bush.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/flower.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/grade1-visuals.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/grade1-simple-presentation.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/grade1-task-design.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/grade1-task-cues.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/garden-items.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/garden-rewards.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/garden-wallet.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/lesson-previews.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/shape-options.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/grade1-app.js?v=kojafield-20261116-11" defer></script>
+    <link rel="stylesheet" href="css/game-reset.css?v=kojafield-20261116-11" />
+    <script src="js/game-reset.js?v=kojafield-20261116-11" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to game</a>
+    <header class="site-header garden-lesson-header">
+      <a class="brand" href="index.html#garden-1" aria-label="All gardens"
+        ><span class="brand-symbol" aria-hidden="true">✿</span> KojaField</a
+      >
+      <nav aria-label="Navigation">
+        <a class="nav-link field-link" href="index.html#garden-1" aria-label="All gardens"
+          >← Gardens</a
+        ><button class="nav-link active" id="g1-map">Map</button>
+      </nav>
+      <div class="header-right">
+        <a
+          class="garden-wallet-pill"
+          href="index.html#garden-1"
+          data-garden-wallet="grade1"
+          aria-label="Garden shop"
+          ><span class="sr-only">Coins for your garden</span><span data-wallet-balance>0</span></a
+        >
+      </div>
+      <label class="language-picker" data-no-translate
+        ><span class="sr-only">Language / Nyelv</span
+        ><select data-language-switch aria-label="Language / Nyelv">
+          <option value="en">EN</option>
+          <option value="hu">HU</option>
+        </select></label
+      >
+    </header>
+    <main id="main">
+      <p class="save-note" id="g1-save-note" role="status" hidden>Cannot save in this browser.</p>
+      <section id="g1-map-view">
+        <div class="journey-heading">
+          <h1>1st Grade</h1>
+          <span class="field-count" id="g1-count">0 / 80</span>
+        </div>
+        <div class="g1-worlds" id="g1-worlds" aria-label="Choose a chapter"></div>
+        <section class="g1-world-panel">
+          <div class="g1-world-heading">
+            <div>
+              <span id="g1-world-number" class="g1-kicker"></span>
+              <h2 id="g1-world-title"></h2>
+            </div>
+            <button
+              id="g1-review"
+              class="g1-review-link"
+              aria-label="Practise skills that need another try"
+            >
+              ↺ <span id="g1-review-count">0</span>
+            </button>
+          </div>
+          <div class="g1-stops" id="g1-stops"></div>
+        </section>
+      </section>
+      <section id="g1-lesson-view" hidden>
+        <div class="play-top">
+          <button class="back-button" id="g1-back">← Map</button
+          ><span class="level-skill" id="g1-location"></span>
+        </div>
+        <div class="play-heading">
+          <h1 id="g1-title"></h1>
+        </div>
+        <details class="learn-panel g1-learn-panel" id="g1-learn">
+          <summary>Show an example</summary>
+          <div class="learn-content" id="g1-example"></div>
+        </details>
+        <div class="g1-missions" id="g1-missions" hidden></div>
+        <section id="g1-work" hidden>
+          <div class="g1-work-top">
+            <button id="g1-fresh" type="button" class="button quiet" hidden>
+              ↻ Fresh questions
+            </button>
+            <div class="g1-flower-summary">
+              <div id="g1-flower"></div>
+              <output id="g1-score">—</output>
+            </div>
+          </div>
+          <section class="g1-workbook">
+            <div class="workbook-heading">
+              <p id="g1-instruction"></p>
+              <span id="g1-answer-count" class="answer-counter"></span>
+            </div>
+            <div id="g1-progress-dots" class="g1-progress-dots" aria-hidden="true"></div>
+            <h2 id="g1-task-prompt" class="g1-set-prompt" hidden></h2>
+            <form id="g1-form" novalidate>
+              <div id="g1-questions" class="g1-question-grid"></div>
+              <div class="workbook-footer">
+                <button id="g1-submit" class="button primary g1-big-action" type="submit"></button>
+              </div>
+            </form>
+            <section id="g1-result" class="g1-result" role="status" hidden>
+              <h2 id="g1-result-title"></h2>
+              <p id="g1-result-copy"></p>
+              <div id="g1-reward" class="garden-reward" hidden></div>
+              <div id="g1-targeted" class="g1-targeted"></div>
+              <div class="g1-result-actions">
+                <button class="button primary" id="g1-next"></button
+                ><button class="button quiet" id="g1-result-map">← <span>Map</span></button
+                ><button class="button quiet" id="g1-retry-mission" hidden>
+                  ↺ <span>Again</span>
+                </button>
+              </div>
+            </section>
+          </section>
+          <div class="g1-record" id="g1-record"></div>
+        </section>
+      </section>
+    </main>
+    <dialog class="info-dialog" id="g1-dialog">
+      <button class="icon-button dialog-close" id="g1-close" aria-label="Close">×</button>
+      <div id="g1-dialog-copy"></div>
+    </dialog>
+    <noscript>Enable JavaScript to play.</noscript>
+  </body>
+</html>

@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#f6f4ed" />
+    <title>3rd Grade · KojaField</title>
+    <meta name="description" content="Explore 80 maths levels in ten connected worlds." />
+    <link rel="icon" href="assets-mark.svg" />
+    <link rel="stylesheet" href="css/styles.css?v=kojafield-20261116-11" />
+    <link rel="stylesheet" href="css/gardens.css?v=kojafield-20261116-11" />
+    <link rel="stylesheet" href="css/grade3.css?v=kojafield-20261116-11" />
+    <link rel="stylesheet" href="css/garden-wallet.css?v=kojafield-20261116-11" />
+    <script src="data/grade3.js?v=kojafield-20261116-11" defer></script>
+    <script src="data/grade3-legacy.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/grade3-questions-legacy.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/grade3-questions.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/i18n-grade3.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/i18n-questions.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/i18n.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/grade3-engine.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/bush.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/flower.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/grade3-visuals.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/grade3-presentation.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/garden-items.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/garden-rewards.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/garden-wallet.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/grade3-counter-help.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/lesson-previews.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/shape-options.js?v=kojafield-20261116-11" defer></script>
+    <script src="js/grade3-app.js?v=kojafield-20261116-11" defer></script>
+    <link rel="stylesheet" href="css/game-reset.css?v=kojafield-20261116-11" />
+    <script src="js/game-reset.js?v=kojafield-20261116-11" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to game</a>
+    <header class="site-header garden-lesson-header">
+      <a class="brand" href="index.html#garden-3" aria-label="All gardens"
+        ><span class="brand-symbol" aria-hidden="true">✿</span> KojaField</a
+      >
+      <nav aria-label="Navigation">
+        <a class="nav-link field-link" href="index.html#garden-3" aria-label="All gardens"
+          >← Gardens</a
+        ><button class="nav-link active" id="g3-map">Map</button>
+      </nav>
+      <div class="header-right">
+        <a
+          class="garden-wallet-pill"
+          href="index.html#garden-3"
+          data-garden-wallet="grade3"
+          aria-label="Garden shop"
+          ><span class="sr-only">Coins for your garden</span><span data-wallet-balance>0</span></a
+        ><button class="icon-button" id="g3-help" aria-label="How to play">?</button>
+      </div>
+      <label class="language-picker" data-no-translate
+        ><span class="sr-only">Language / Nyelv</span
+        ><select data-language-switch aria-label="Language / Nyelv">
+          <option value="en">EN</option>
+          <option value="hu">HU</option>
+        </select></label
+      >
+    </header>
+    <main id="main">
+      <p id="g3-save-note" class="save-note" role="status" hidden>Cannot save in this browser.</p>
+      <section id="g3-map-view">
+        <div class="journey-heading">
+          <h1>3rd Grade</h1>
+          <span id="g3-count" class="field-count">0 / 80</span>
+        </div>
+        <div class="world-tabs" id="g3-worlds" aria-label="Maths worlds"></div>
+        <section class="world-panel" id="g3-world-panel">
+          <div class="world-heading">
+            <div>
+              <span class="world-kicker" id="g3-world-number"></span>
+              <h2 id="g3-world-title"></h2>
+            </div>
+            <button class="review-link" id="g3-review">
+              Review <span id="g3-review-count">0</span>
+            </button>
+          </div>
+          <div class="world-map" id="g3-map-field">
+            <svg id="g3-path" aria-hidden="true"></svg>
+            <div class="g3-stops" id="g3-stops"></div>
+          </div>
+        </section>
+      </section>
+      <section id="g3-play-view" hidden>
+        <div class="play-top">
+          <button class="back-button" id="g3-back">← Map</button
+          ><span class="level-skill" id="g3-play-location"></span
+          ><button id="g3-refresh" type="button" class="button quiet" hidden>
+            Fresh questions
+          </button>
+        </div>
+        <div class="play-heading">
+          <h1 id="g3-play-title"></h1>
+          <span class="level-skill" id="g3-level-kind"></span>
+        </div>
+        <div id="g3-missions" class="mission-tabs" hidden></div>
+        <details class="learn-panel" id="g3-learn">
+          <summary>Show an example</summary>
+          <div class="learn-content">
+            <h2 id="g3-objective"></h2>
+            <p id="g3-explanation"></p>
+            <div class="worked-example" id="g3-example"></div>
+            <div id="g3-guided" class="guided-pair"></div>
+          </div>
+        </details>
+        <div class="g3-play-layout">
+          <section class="g3-workbook">
+            <div class="workbook-heading">
+              <p id="g3-instruction">Answer the whole set.</p>
+              <span id="g3-answer-count" class="answer-counter"></span>
+            </div>
+            <h2 id="g3-task-prompt" class="g3-set-prompt" hidden></h2>
+            <form id="g3-form" novalidate>
+              <div class="g3-question-grid" id="g3-questions"></div>
+              <div class="workbook-footer">
+                <button id="g3-submit" class="button primary" type="submit">Check my work →</button>
+              </div>
+            </form>
+            <div id="g3-result" class="g3-result" role="status" hidden>
+              <h2 id="g3-result-title"></h2>
+              <p id="g3-result-copy"></p>
+              <div id="g3-reward" class="garden-reward" hidden></div>
+              <div id="g3-targeted" class="targeted-actions"></div>
+              <details id="g3-mistakes">
+                <summary>A checking tip</summary>
+                <p id="g3-mistake-copy"></p>
+              </details>
+              <div class="result-actions">
+                <button class="button quiet" id="g3-revise">Review answers</button
+                ><button class="button primary" id="g3-next-run">Fresh questions →</button
+                ><button class="button quiet" id="g3-result-map">Map</button
+                ><button class="button quiet" id="g3-retry-mission" hidden>
+                  Retry this mission
+                </button>
+              </div>
+            </div>
+          </section>
+          <aside class="g3-flower-panel">
+            <div class="flower-heading">
+              <span>Last result</span><output id="g3-score">—</output>
+            </div>
+            <div id="g3-flower" aria-label="No result yet"></div>
+            <div id="g3-record" class="g3-record"></div>
+          </aside>
+        </div>
+      </section>
+    </main>
+    <dialog class="info-dialog" id="g3-dialog">
+      <button class="icon-button dialog-close" id="g3-close" aria-label="Close">×</button>
+      <div id="g3-dialog-copy"></div>
+    </dialog>
+    <noscript>Enable JavaScript to play.</noscript>
+  </body>
+</html>
