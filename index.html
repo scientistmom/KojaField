@@ -5,36 +5,266 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="theme-color" content="#f6f4ed" />
     <title>KojaField · Your gardens</title>
-    <meta name="description" content="A field of maths gardens. Choose first or third grade." />
+    <meta
+      name="description"
+      content="A field of maths gardens. Choose first, second or third grade."
+    />
     <link rel="icon" href="assets-mark.svg" />
-    <link rel="stylesheet" href="css/styles.css?v=kojafield-20261116-11" />
-    <link rel="stylesheet" href="css/gardens.css?v=kojafield-20261116-11" />
-    <link rel="stylesheet" href="css/garden-wallet.css?v=kojafield-20261116-11" />
-    <link rel="stylesheet" href="css/garden-room.css?v=kojafield-20261116-11" />
-    <script src="data/grade1.js?v=kojafield-20261116-11" defer></script>
-    <script src="js/grade1-questions.js?v=kojafield-20261116-11" defer></script>
-    <script src="js/grade1-questions-v4.js?v=kojafield-20261116-11" defer></script>
-    <script src="js/grade1-questions-v5.js?v=kojafield-20261116-11" defer></script>
-    <script src="js/grade1-simple-questions.js?v=kojafield-20261116-11" defer></script>
-    <script src="data/grade3.js?v=kojafield-20261116-11" defer></script>
-    <script src="data/grade3-legacy.js?v=kojafield-20261116-11" defer></script>
-    <script src="js/grade3-questions-legacy.js?v=kojafield-20261116-11" defer></script>
-    <script src="js/grade3-questions.js?v=kojafield-20261116-11" defer></script>
-    <script src="js/i18n-grade1.js?v=kojafield-20261116-11" defer></script>
-    <script src="js/i18n-grade3.js?v=kojafield-20261116-11" defer></script>
-    <script src="js/i18n-questions.js?v=kojafield-20261116-11" defer></script>
-    <script src="js/i18n.js?v=kojafield-20261116-11" defer></script>
-    <script src="js/grade1-engine.js?v=kojafield-20261116-11" defer></script>
-    <script src="js/grade3-engine.js?v=kojafield-20261116-11" defer></script>
-    <script src="js/bush.js?v=kojafield-20261116-11" defer></script>
-    <script src="js/garden-items.js?v=kojafield-20261116-11" defer></script>
-    <script src="js/garden-rewards.js?v=kojafield-20261116-11" defer></script>
-    <script src="js/garden-wallet.js?v=kojafield-20261116-11" defer></script>
-    <script src="js/gardens.js?v=kojafield-20261116-11" defer></script>
-    <script src="js/garden-life.js?v=kojafield-20261116-11" defer></script>
-    <script src="js/garden-room.js?v=kojafield-20261116-11" defer></script>
-    <link rel="stylesheet" href="css/game-reset.css?v=kojafield-20261116-11" />
-    <script src="js/game-reset.js?v=kojafield-20261116-11" defer></script>
+    <link rel="stylesheet" href="css/styles.css?v=kojafield-20261120-release" />
+    <link rel="stylesheet" href="css/gardens.css?v=kojafield-20261120-release" />
+    <link rel="stylesheet" href="css/garden-wallet.css?v=kojafield-20261120-release" />
+    <link rel="stylesheet" href="css/garden-room.css?v=kojafield-20261120-release" />
+    <link rel="stylesheet" href="css/garden-house.css?v=kojafield-20261120-release" />
+    <script data-game-loader>
+      (function () {
+        'use strict';
+        function boot() {
+          const sources = [...document.querySelectorAll('script[data-game-src]')].map(
+              (node) => node.dataset.gameSrc,
+            ),
+            main = document.getElementById('main');
+          let hungarian = false;
+          try {
+            hungarian = localStorage.getItem('kojagarden.language') === 'hu';
+          } catch {}
+          const copy = hungarian
+              ? {
+                  loading: 'Készül a kerted…',
+                  failed: 'A kerted nem töltődött be. Próbáld újra!',
+                  retry: 'Újra',
+                  reopen: 'Nyissuk meg újra a kerted!',
+                  reload: 'Újratöltés',
+                }
+              : {
+                  loading: 'Getting your garden ready…',
+                  failed: 'Your garden could not load. Try again.',
+                  retry: 'Try again',
+                  reopen: 'Let’s reopen your garden.',
+                  reload: 'Reload',
+                },
+            notice = document.createElement('div'),
+            message = document.createElement('p'),
+            retry = document.createElement('button');
+          notice.id = 'game-startup-notice';
+          notice.dataset.noTranslate = '';
+          notice.setAttribute('role', 'status');
+          notice.style.cssText =
+            'max-width:1208px;margin:20px auto;padding:18px 24px;background:#fffdf1;border:1px solid #c8d4b7;border-radius:14px;color:#233e3a';
+          message.style.margin = '0';
+          retry.id = 'game-startup-retry';
+          retry.type = 'button';
+          retry.className = 'button primary';
+          retry.style.marginTop = '12px';
+          retry.hidden = true;
+          notice.append(message, retry);
+          if (main) {
+            main.before(notice);
+            main.inert = true;
+            main.setAttribute('aria-busy', 'true');
+          } else document.body.prepend(notice);
+          let next = 0,
+            running = false,
+            runtimeFailed = false;
+          function showFailure(runtime) {
+            runtimeFailed ||= runtime;
+            message.textContent = runtimeFailed ? copy.reopen : copy.failed;
+            retry.textContent = runtimeFailed ? copy.reload : copy.retry;
+            retry.disabled = false;
+            retry.hidden = false;
+            notice.hidden = false;
+          }
+          function runtimeError(event) {
+            if (event.target === window) showFailure(true);
+          }
+          window.addEventListener('error', runtimeError);
+          async function load(source) {
+            for (let attempt = 0; attempt < 3; attempt++) {
+              if (attempt)
+                await new Promise((resolve) => setTimeout(resolve, attempt === 1 ? 250 : 750));
+              if (runtimeFailed) throw new Error('Startup execution failed');
+              try {
+                await new Promise((resolve, reject) => {
+                  const script = document.createElement('script');
+                  script.async = false;
+                  script.onload = () => {
+                    script.onload = script.onerror = null;
+                    resolve();
+                  };
+                  script.onerror = () => {
+                    script.onload = script.onerror = null;
+                    script.remove();
+                    reject({ kind: 'network' });
+                  };
+                  script.src = source;
+                  document.head.append(script);
+                });
+                return;
+              } catch (error) {
+                if (error.kind !== 'network' || attempt === 2) throw error;
+              }
+            }
+          }
+          async function start() {
+            if (running || runtimeFailed) return;
+            running = true;
+            retry.hidden = true;
+            retry.disabled = true;
+            message.textContent = copy.loading;
+            try {
+              while (next < sources.length) {
+                await load(sources[next]);
+                if (runtimeFailed) throw new Error('Startup execution failed');
+                next++;
+              }
+              // Standalone editions finish their inline DOMContentLoaded callbacks first.
+              await new Promise((resolve) => setTimeout(resolve, 0));
+              if (runtimeFailed) throw new Error('Startup execution failed');
+              document.documentElement.dataset.gameReady = 'true';
+              if (main) {
+                main.inert = false;
+                main.removeAttribute('aria-busy');
+              }
+              notice.hidden = true;
+              window.removeEventListener('error', runtimeError);
+            } catch (error) {
+              showFailure(runtimeFailed || error.kind !== 'network');
+            } finally {
+              running = false;
+              retry.disabled = false;
+            }
+          }
+          retry.addEventListener('click', () => {
+            if (runtimeFailed) location.reload();
+            else start();
+          });
+          start();
+        }
+        if (document.readyState === 'loading')
+          document.addEventListener('DOMContentLoaded', boot, { once: true });
+        else boot();
+      })();
+    </script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="data/grade1.js?v=kojafield-20261120-hint-review-1"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="js/grade1-questions.js?v=kojafield-20261120-release"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="js/grade1-questions-v4.js?v=kojafield-20261120-release"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="js/grade1-questions-v5.js?v=kojafield-20261120-release"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="js/grade1-simple-questions.js?v=kojafield-20261120-release"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="data/grade2.js?v=kojafield-20261120-3"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="js/grade2-questions.js?v=kojafield-20261120-release"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="js/i18n-grade2.js?v=kojafield-20261120-release"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="data/grade3.js?v=kojafield-20261120-1"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="data/grade3-legacy.js?v=kojafield-20261120-1"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="js/grade3-questions-legacy.js?v=kojafield-20261120-release"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="js/grade3-questions.js?v=kojafield-20261120-release"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="js/i18n-grade1.js?v=kojafield-20261120-hint-review-1"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="js/i18n-grade3.js?v=kojafield-20261120-release"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="js/i18n-questions.js?v=kojafield-20261120-hint-review-1"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="js/i18n.js?v=kojafield-20261120-release"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="js/grade1-engine.js?v=kojafield-20261120-save-validation-1"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="js/grade3-engine.js?v=kojafield-20261120-release"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="js/grade2-engine.js?v=kojafield-20261120-release"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="js/bush.js?v=kojafield-20261120-release"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="js/garden-items.js?v=kojafield-20261120-release"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="js/garden-house-model.js?v=kojafield-20261120-release"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="js/garden-house-art.js?v=kojafield-20261120-release"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="js/garden-rewards.js?v=kojafield-20261120-release"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="js/garden-wallet.js?v=kojafield-20261120-release"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="js/garden-house.js?v=kojafield-20261120-release"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="js/gardens.js?v=kojafield-20261120-release"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="js/garden-life.js?v=kojafield-20261120-release"
+    ></script>
+    <script
+      type="application/x-kojafield"
+      data-game-src="js/garden-room.js?v=kojafield-20261120-release"
+    ></script>
+    <link rel="stylesheet" href="css/game-reset.css?v=kojafield-20261120-release" />
+    <script
+      type="application/x-kojafield"
+      data-game-src="js/game-reset.js?v=kojafield-20261120-release"
+    ></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to gardens</a>
@@ -59,6 +289,7 @@
       <div class="garden-toolbar">
         <div class="garden-grade-menu" role="group" aria-label="Choose a maths garden">
           <button type="button" data-garden-grade="1" aria-pressed="true">1st Grade</button
+          ><button type="button" data-garden-grade="2" aria-pressed="false">2nd Grade</button
           ><button type="button" data-garden-grade="3" aria-pressed="false">3rd Grade</button>
         </div>
         <div class="garden-toolbar-actions">
@@ -195,6 +426,43 @@
             >
           </div>
         </article>
+        <article class="garden-choice grade-two" data-grade="2">
+          <div class="garden-art" id="grade2-art"></div>
+          <div class="decor-lawn-wrap">
+            <div
+              class="decor-lawn"
+              id="decor-lawn-2"
+              data-decor-grade="2"
+              tabindex="0"
+              role="group"
+              aria-label="Your decoration garden"
+            >
+              <div class="lawn-scenery" aria-hidden="true">
+                <i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <div class="decor-items" id="decor-items-2"></div>
+              <div class="lawn-welcome">
+                <span aria-hidden="true">✿</span><span>A little space to make your own</span>
+              </div>
+            </div>
+          </div>
+          <button
+            class="garden-pick"
+            id="choose-grade2"
+            aria-expanded="false"
+            aria-controls="enter-grade2"
+          >
+            <span class="garden-sign"
+              ><strong>2nd Grade</strong><span>10 chapters · 80 lessons</span
+              ><span id="grade2-progress" class="garden-progress">0 / 80</span></span
+            >
+          </button>
+          <div class="garden-entry">
+            <a class="button primary enter-garden" id="enter-grade2" href="grade2.html" hidden
+              >Start <span aria-hidden="true">→</span></a
+            >
+          </div>
+        </article>
         <article class="garden-choice grade-three" data-grade="3">
           <div class="garden-art" id="grade3-art"></div>
           <div class="decor-lawn-wrap">
@@ -264,6 +532,15 @@
         <div class="shop-tabs" role="group" aria-label="Garden shop">
           <button type="button" data-shop-tab="shop" aria-pressed="true">Shop</button
           ><button type="button" data-shop-tab="owned" aria-pressed="false">My things</button>
+        </div>
+        <div
+          class="shop-tabs shop-departments"
+          id="shop-departments"
+          role="group"
+          aria-label="Choose items"
+        >
+          <button type="button" data-shop-department="garden" aria-pressed="true">Garden</button>
+          <button type="button" data-shop-department="house" aria-pressed="false">House</button>
         </div>
         <div id="shop-content"></div>
         <details class="coin-rules">
